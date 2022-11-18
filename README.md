@@ -10,3 +10,11 @@ Approach made is by using Web Api to manipulate board and rectangles
 - `DELETE /api/Rectangle` => Delete rectangle (supply coordinates as starting point)
 
 Format of coordinates is `(row,column)`
+
+TechStack:
+- `.NET 6`
+- `C#`
+- `NUnit 3.13.3`
+
+Tools:
+- `Visual Studio 2022`

@@ -18,3 +18,41 @@ TechStack:
 
 Tools:
 - `Visual Studio 2022`
+
+Examples:
+
+        |0,0|0,1|0,2|0,3|0,4|
+        |1,0|1,1|1,2|1,3|1,4|
+        |2,0|2,1|2,2|2,3|2,4|
+        |3,0|3,1|3,2|3,3|3,4|
+        |4,0|4,1|4,2|4,3|4,4|
+
+
+     formula to get coordinates range based on width and height
+     row + height - 1  
+     column + width - 1
+
+     Example: width = 2; height = 2; coordinates = (0,0)
+       coodinates format (row, column)
+       row + height:  0 + 2 = 2 - 1
+       column + width: 0 + 2 = 2 - 1
+       Result:
+       | 0,0 | 0,1 |
+       | 1,0 | 1,1 |
+
+     Example: width = 3; height = 2; coordinates = (2,2)
+       coodinates format (row, column)
+       row + height:  2 + 2 = 4 - 1
+       column + width: 2 + 3 = 5 - 1
+       Result:
+       | 2,2 | 2,3 | 2,4 |
+       | 3,2 | 3,3 | 3,4 |
+
+     Example: width = 2; height = 3; coordinates = (2,2) 
+       coodinates format (row, column)
+       row + height:  2 + 3 = 5 - 1
+       column + width: 2 + 2 = 4 - 1
+       Result:
+       | 2,2 | 2,3 |
+       | 3,2 | 3,3 |
+       | 4,2 | 4,3 |

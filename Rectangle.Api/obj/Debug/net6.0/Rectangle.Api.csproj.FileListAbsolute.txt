@@ -1,0 +1,7 @@
+/Users/jon/Projects/Flare/Rectangles/Rectangle.Api/obj/Debug/net6.0/Rectangle.Api.csproj.AssemblyReference.cache
+/Users/jon/Projects/Flare/Rectangles/Rectangle.Api/obj/Debug/net6.0/Rectangle.Api.GeneratedMSBuildEditorConfig.editorconfig
+/Users/jon/Projects/Flare/Rectangles/Rectangle.Api/obj/Debug/net6.0/Rectangle.Api.AssemblyInfoInputs.cache
+/Users/jon/Projects/Flare/Rectangles/Rectangle.Api/obj/Debug/net6.0/Rectangle.Api.AssemblyInfo.cs
+/Users/jon/Projects/Flare/Rectangles/Rectangle.Api/obj/Debug/net6.0/Rectangle.Api.csproj.CoreCompileInputs.cache
+/Users/jon/Projects/Flare/Rectangles/Rectangle.Api/obj/Debug/net6.0/Rectangle.Api.MvcApplicationPartsAssemblyInfo.cs
+/Users/jon/Projects/Flare/Rectangles/Rectangle.Api/obj/Debug/net6.0/Rectangle.Api.MvcApplicationPartsAssemblyInfo.cache

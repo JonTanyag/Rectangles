@@ -1,0 +1,36 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v6.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v6.0": {
+      "Rectangle.Infrastructure/1.0.0": {
+        "dependencies": {
+          "Rectangle.Core": "1.0.0"
+        },
+        "runtime": {
+          "Rectangle.Infrastructure.dll": {}
+        }
+      },
+      "Rectangle.Core/1.0.0": {
+        "runtime": {
+          "Rectangle.Core.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Rectangle.Infrastructure/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Rectangle.Core/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

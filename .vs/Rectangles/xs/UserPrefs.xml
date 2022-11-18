@@ -1,0 +1,5 @@
+﻿<Properties StartupConfiguration="{DCBACCC9-44D2-474C-BAB1-6C1DE6D07117}|Rectangle.Api">
+  <MonoDevelop.Ide.ItemProperties.Rectangles.UnitTest FirstBuild="True" />
+  <MonoDevelop.Ide.ItemProperties.Rectangles.Api PreferredExecutionTarget="/Applications/Google Chrome.app" />
+  <MultiItemStartupConfigurations />
+</Properties>

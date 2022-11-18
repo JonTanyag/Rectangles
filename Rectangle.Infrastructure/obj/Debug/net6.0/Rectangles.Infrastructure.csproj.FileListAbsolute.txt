@@ -1,0 +1,15 @@
+/Users/jon/Projects/Flare/Rectangles/Rectangle.Infrastructure/bin/Debug/net6.0/Rectangle.Infrastructure.deps.json
+/Users/jon/Projects/Flare/Rectangles/Rectangle.Infrastructure/bin/Debug/net6.0/Rectangle.Infrastructure.dll
+/Users/jon/Projects/Flare/Rectangles/Rectangle.Infrastructure/bin/Debug/net6.0/Rectangle.Infrastructure.pdb
+/Users/jon/Projects/Flare/Rectangles/Rectangle.Infrastructure/bin/Debug/net6.0/Rectangle.Core.dll
+/Users/jon/Projects/Flare/Rectangles/Rectangle.Infrastructure/bin/Debug/net6.0/Rectangle.Core.pdb
+/Users/jon/Projects/Flare/Rectangles/Rectangle.Infrastructure/obj/Debug/net6.0/Rectangles.Infrastructure.csproj.AssemblyReference.cache
+/Users/jon/Projects/Flare/Rectangles/Rectangle.Infrastructure/obj/Debug/net6.0/Rectangles.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+/Users/jon/Projects/Flare/Rectangles/Rectangle.Infrastructure/obj/Debug/net6.0/Rectangles.Infrastructure.AssemblyInfoInputs.cache
+/Users/jon/Projects/Flare/Rectangles/Rectangle.Infrastructure/obj/Debug/net6.0/Rectangles.Infrastructure.AssemblyInfo.cs
+/Users/jon/Projects/Flare/Rectangles/Rectangle.Infrastructure/obj/Debug/net6.0/Rectangles.Infrastructure.csproj.CoreCompileInputs.cache
+/Users/jon/Projects/Flare/Rectangles/Rectangle.Infrastructure/obj/Debug/net6.0/Rectangles.Infrastructure.csproj.CopyComplete
+/Users/jon/Projects/Flare/Rectangles/Rectangle.Infrastructure/obj/Debug/net6.0/Rectangle.Infrastructure.dll
+/Users/jon/Projects/Flare/Rectangles/Rectangle.Infrastructure/obj/Debug/net6.0/refint/Rectangle.Infrastructure.dll
+/Users/jon/Projects/Flare/Rectangles/Rectangle.Infrastructure/obj/Debug/net6.0/Rectangle.Infrastructure.pdb
+/Users/jon/Projects/Flare/Rectangles/Rectangle.Infrastructure/obj/Debug/net6.0/ref/Rectangle.Infrastructure.dll

@@ -17,15 +17,13 @@ namespace Rectangles.Infrastructure.Service
             _jsonService = jsonService;
 		}
 
-        public async Task<bool> DeleteRectangle(string coordinates)
+        public async Task<bool> DeleteRectangle(int row, int column)
         {
             try
             {
-                var axis = coordinates.Split(',');
-
                 var board = await _jsonService.GetRectangles();
 
-                var marker = board.FirstOrDefault(x => x.Row == int.Parse(axis[0]) && x.Column == int.Parse(axis[1]) && x.isHit);
+                var marker = board.FirstOrDefault(x => x.Row == row && x.Column == column && x.isHit);
                 if (marker == null)
                     return false;
                 
@@ -90,41 +88,6 @@ namespace Rectangles.Infrastructure.Service
             // details of rectangle is placed in a list, this can be beneficial
             // for multiple rectangles
 
-            //  |0,0|0,1|0,2|0,3|0,4|
-            //  |1,0|1,1|1,2|1,3|1,4|
-            //  |2,0|2,1|2,2|2,3|2,4|
-            //  |3,0|3,1|3,2|3,3|3,4|
-            //  |4,0|4,1|4,2|4,3|4,4|
-
-
-            // formula to get coordinates range based on width and height
-            // row + height - 1  
-            // column + width - 1
-
-            // Example: width = 2; height = 2; coordinates = (0,0)
-            // coodinates format (row, column)
-            // row + height:  0 + 2 = 2 - 1
-            // column + width: 0 + 2 = 2 - 1
-            // Result:
-            // | 0,0 | 0,1 |
-            // | 1,0 | 1,1 |
-
-            // Example: width = 3; height = 2; coordinates = (2,2)
-            // coodinates format (row, column)
-            // row + height:  2 + 2 = 4 - 1
-            // column + width: 2 + 3 = 5 - 1
-            // Result:
-            // | 2,2 | 2,3 | 2,4 |
-            // | 3,2 | 3,3 | 3,4 |
-
-            // Example: width = 2; height = 3; coordinates = (2,2) 
-            // coodinates format (row, column)
-            // row + height:  2 + 3 = 5 - 1
-            // column + width: 2 + 2 = 4 - 1
-            // Result:
-            // | 2,2 | 2,3 |
-            // | 3,2 | 3,3 |
-            // | 4,2 | 4,3 |
             var overlap = await CheckOverlap(payload);
             if (overlap)
             {
@@ -136,24 +99,22 @@ namespace Rectangles.Infrastructure.Service
             var marker = 0;
             foreach (var item in payload)
             {
-                var isOverEdge = await ValidateRectangle(item.Width, item.Height, item.Coordinates);
+                var isOverEdge = await ValidateRectangle(item.Width, item.Height, item.Row, item.Column);
                 if (!isOverEdge)
                     throw new Exception("Invalid Rectangle. Dimension is out of bounds to the board's dimension.");
 
                 // marker will be the key to find individual rectangles
                 marker++;
 
-                // coordinates is set to comma separated string to minimize properties in payload
-                var coordinates = item.Coordinates.Split(',');
 
-                var endRow = int.Parse(coordinates[0]) + item.Height - 1;
-                var endCol = int.Parse(coordinates[1]) + item.Width - 1;
+                var endRow = item.Row + item.Height - 1;
+                var endCol = item.Column + item.Width - 1;
 
                 // second loop can determine if 2nd rectangle will overlap with the 2st one
                 foreach (var squareToHit in board)
                 {
                     // mark suppied row and colum via coordinates e.g (2,2)
-                    if (squareToHit.Row == int.Parse(coordinates[0]) && squareToHit.Column == int.Parse(coordinates[1]))
+                    if (squareToHit.Row == item.Row && squareToHit.Column == item.Column)
                     {
                         if (squareToHit.isHit)
                         {
@@ -171,7 +132,7 @@ namespace Rectangles.Infrastructure.Service
                             break;
 
                         // process column in supplied coordinate in initial row
-                        if (squareToHit.Row == int.Parse(coordinates[0]) && (squareToHit.Column > int.Parse(coordinates[1]) && squareToHit.Column <= endCol))
+                        if (squareToHit.Row == item.Row && (squareToHit.Column > item.Column && squareToHit.Column <= endCol))
                         {
                             if (squareToHit.isHit)
                             {
@@ -183,8 +144,8 @@ namespace Rectangles.Infrastructure.Service
                         // process next row
                         // nested if includes ">" sign to exclude initial coordinates that was already processed
                         // in line 105-106
-                        else if (squareToHit.Row > int.Parse(coordinates[0]))
-                            if ((squareToHit.Row > int.Parse(coordinates[0]) && squareToHit.Row <= endRow) && (squareToHit.Column >= int.Parse(coordinates[1]) && squareToHit.Column <= endCol))
+                        else if (squareToHit.Row > item.Row)
+                            if ((squareToHit.Row > item.Row && squareToHit.Row <= endRow) && (squareToHit.Column >= item.Column && squareToHit.Column <= endCol))
                             {
                                 if (squareToHit.isHit)
                                 {
@@ -214,11 +175,10 @@ namespace Rectangles.Infrastructure.Service
             var board = await _jsonService.GetRectangles();
             foreach (var item in payload)
             {
-                var coordinate = item.Coordinates.Split(',');
 
                 // this will determine what column and row the rectangle will end
-                var endRow = int.Parse(coordinate[0]) + item.Height - 1;
-                var endCol = int.Parse(coordinate[1]) + item.Width - 1;
+                var endRow = item.Row + item.Height - 1;
+                var endCol = item.Column + item.Width - 1;
 
                 var markedCoordinates = board.Any(x => x.Mark > 0);
 
@@ -226,7 +186,7 @@ namespace Rectangles.Infrastructure.Service
                 {
                     // get existing rectangle
                     // compare coordinates with new one
-                    var overlap = board.Any(x => x.Column == int.Parse(coordinate[1]) && x.Row == int.Parse(coordinate[0]) && x.isHit);
+                    var overlap = board.Any(x => x.Column == item.Column && x.Row == item.Row && x.isHit);
                     if (overlap)
                         return true;
                         //throw new Exception("Rectangle overlaps with existing rectangle.");
@@ -236,21 +196,20 @@ namespace Rectangles.Infrastructure.Service
             return false;
         }
 
-        public async Task<bool> ValidateRectangle(int width, int height, string coordinates)
+        public async Task<bool> ValidateRectangle(int width, int height, int row, int column)
         {
             // For constraint:
             // Rectangles must not extend beyond the edge of the grid
 
             var board = await _jsonService.GetRectangles();
-            var coordinate = coordinates.Split(',');
             // get maximum row and column
             // this will determine the dimenstion of board
             var maxRow = board.OrderByDescending(x => x.Row).First();
             var maxColumn = board.OrderByDescending(x => x.Column).First();
 
             // this will determine what column and row the rectangle will end
-            var endRow = int.Parse(coordinate[0]) + height - 1;
-            var endCol = int.Parse(coordinate[1]) + width - 1;
+            var endRow = row + height - 1;
+            var endCol = column + width - 1;
 
             if (endRow > maxRow.Row || endCol > maxColumn.Column)
                 return false;

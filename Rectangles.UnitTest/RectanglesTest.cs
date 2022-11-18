@@ -47,7 +47,7 @@ public class RectanglesStest
         var _rectangleService = new RectangleService();
 
         // Act
-        var isValid = _rectangleService.ValidateRectangle(3, 5, "2,2");
+        var isValid = _rectangleService.ValidateRectangle(3, 5, 2,2);
 
 
         // Assert
@@ -62,7 +62,7 @@ public class RectanglesStest
 
 
         // Act
-        var deleted = _rectangleService.DeleteRectangle("2,2");
+        var deleted = _rectangleService.DeleteRectangle(2,2);
 
 
         // Assert
@@ -76,7 +76,7 @@ public class RectanglesStest
         var _rectangleService = new RectangleService();
 
         // Act
-        var deleted = _rectangleService.DeleteRectangle("1,0");
+        var deleted = _rectangleService.DeleteRectangle(1,0);
 
 
         // Assert

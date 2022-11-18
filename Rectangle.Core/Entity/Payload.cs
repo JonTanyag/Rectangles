@@ -8,7 +8,8 @@ namespace Rectangles.Core.Entity
 		}
 		public int Width { get; set; }
 		public int Height { get; set; }
-		public string Coordinates { get; set; }
+		public int Row { get; set; }
+		public int Column { get; set; }
 	}
 }
 

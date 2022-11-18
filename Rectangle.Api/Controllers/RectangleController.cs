@@ -52,9 +52,9 @@ namespace Rectangles.Api.Controllers
 
         // DELETE api/values/5
         [HttpDelete()]
-        public async void Delete(string coordinates)
+        public async void Delete(int row, int column)
         {
-            var res = await _rectangeLservice.DeleteRectangle(coordinates);
+            var res = await _rectangeLservice.DeleteRectangle(row, column);
         }
     }
 }

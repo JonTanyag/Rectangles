@@ -157,7 +157,7 @@ namespace Rectangles.Infrastructure.Service
                     {
                         if (squareToHit.isHit)
                         {
-                            throw new Exception("Current rectangle in process will overlap to previous rectangle.");
+                            throw new Exception("Current rectangle in process will overlap with previous rectangle.");
                         }
                         squareToHit.Mark = marker;
                         squareToHit.isHit = true;
@@ -175,7 +175,7 @@ namespace Rectangles.Infrastructure.Service
                         {
                             if (squareToHit.isHit)
                             {
-                                throw new Exception("Current rectangle in process will overlap to previous rectangle.");
+                                throw new Exception("Current rectangle in process will overlap with previous rectangle.");
                             }
                             squareToHit.Mark = marker;
                             squareToHit.isHit = true;
@@ -188,7 +188,7 @@ namespace Rectangles.Infrastructure.Service
                             {
                                 if (squareToHit.isHit)
                                 {
-                                    throw new Exception("Current rectangle in process will overlap to previous rectangle.");
+                                    throw new Exception("Current rectangle in process will overlap with previous rectangle.");
                                 }
                                 squareToHit.Mark = marker;
                                 squareToHit.isHit = true;

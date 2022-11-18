@@ -7,7 +7,6 @@ namespace Rectangles.Infrastructure.Service
 {
 	public class JsonService : IJsonService
     {
-        private string path = @"..\..\..\..\..\Rectangles\Rectangles.Infrastructure\Data\";
         private string jsonString = File.ReadAllText("board.json");
         public JsonService()
 		{

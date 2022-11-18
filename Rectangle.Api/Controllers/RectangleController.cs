@@ -43,15 +43,15 @@ namespace Rectangles.Api.Controllers
         }
 
         // PUT api/values/5
-        [HttpPut("{id}")]
-        public async Task<List<Rectangle>> Put(int id, [FromBody]List<Payload> payload)
+        [HttpPut()]
+        public async Task<List<Rectangle>> Put(int? id, [FromBody]List<Payload> payload)
         {
             var res = await _rectangeLservice.PlaceRectangle(payload);
             return res;
         }
 
         // DELETE api/values/5
-        [HttpDelete("{id}")]
+        [HttpDelete()]
         public async void Delete(string coordinates)
         {
             var res = await _rectangeLservice.DeleteRectangle(coordinates);

@@ -37,9 +37,6 @@ namespace Rectangles.Api.Controllers
         [HttpPost]
         public async Task<List<Rectangle>> Post(int width, int height, [FromBody]string value)
         {
-            if (width < 5 || width > 25 || height < 5 || height > 25)
-                throw new Exception("Width of rectangle cannot be less than 5 and greater than 25");
-            
             var board = await _rectangeLservice.NewBoard(width, height);
 
             return board;

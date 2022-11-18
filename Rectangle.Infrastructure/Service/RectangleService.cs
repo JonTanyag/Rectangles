@@ -7,39 +7,57 @@ namespace Rectangles.Infrastructure.Service
 	public class RectangleService : IRectangleService
 	{
         private readonly IJsonService _jsonService;
+
+        public RectangleService()
+        {
+
+        }
         public RectangleService(IJsonService jsonService)
 		{
             _jsonService = jsonService;
 		}
 
-        public async Task<List<Rectangle>> DeleteRectangle(string coordinates)
+        public async Task<bool> DeleteRectangle(string coordinates)
         {
-            var axis = coordinates.Split(',');
-
-            var board = await _jsonService.GetRectangles();
-
-            var marker = board.FirstOrDefault(x => x.Row == int.Parse(axis[0]) && x.Column == int.Parse(axis[1]) && x.isHit);
-
-            var rectangle = board.Where(x => x.Mark == marker?.Mark);
-
-            if (marker?.Mark > 0)
+            try
             {
-                foreach (var item in board)
-                {
-                    foreach (var r in rectangle)
-                    {
-                        if (item.isHit && item.Mark == r.Mark)
-                        {
-                            item.isHit = false;
-                            item.Mark = 0;
-                        }
-                    }
-                    
-                }
-            }
-            _jsonService.UpdateRectangleFile(board);
+                var axis = coordinates.Split(',');
 
-            return board;
+                var board = await _jsonService.GetRectangles();
+
+                var marker = board.FirstOrDefault(x => x.Row == int.Parse(axis[0]) && x.Column == int.Parse(axis[1]) && x.isHit);
+                if (marker == null)
+                    return false;
+                
+                // get list of items where Mark is equal to Mark value got from line 28
+                var rectangle = board.Where(x => x.Mark == marker?.Mark);
+
+                if (marker?.Mark > 0)
+                {
+                    foreach (var item in board)
+                    {
+                        foreach (var r in rectangle)
+                        {
+                            if (item.isHit && item.Mark == r.Mark)
+                            {
+                                // deletion of rectangle is by resetting the isHit property to back to false
+                                // and Mark (id of rectangle) back to zero
+                                item.isHit = false;
+                                item.Mark = 0;
+                            }
+                        }
+
+                    }
+                }
+                _jsonService.UpdateRectangleFile(board);
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+
         }
 
         public async Task<List<Rectangle>> GetRectangles()
@@ -50,6 +68,9 @@ namespace Rectangles.Infrastructure.Service
 
         public async Task<List<Rectangle>> NewBoard(int width, int height)
         {
+            if (width < 5 || width > 25 || height < 5 || height > 25)
+                throw new ArgumentException("Dimension of rectangle cannot be less than 5 and greater than 25");
+
             // create new board dimension can be supplied
             var board = new List<Rectangle>();
             for (int i = 0; i <= height -1; i++)

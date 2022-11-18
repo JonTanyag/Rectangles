@@ -9,7 +9,7 @@ namespace Rectangles.Core.Interface
         Task<List<Rectangle>> NewBoard(int width, int height);
         Task<List<Rectangle>> PlaceRectangle(List<Payload> payload);
         Task<List<Rectangle>> GetRectangles();
-        Task<List<Rectangle>> DeleteRectangle(string coordinates);
+        Task<bool> DeleteRectangle(string coordinates);
     }
 }
 

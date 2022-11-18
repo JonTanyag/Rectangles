@@ -14,10 +14,14 @@
     <PackageReference Include="NUnit3TestAdapter" Version="4.2.1" />
     <PackageReference Include="NUnit.Analyzers" Version="3.3.0" />
     <PackageReference Include="coverlet.collector" Version="3.1.2" />
+    <PackageReference Include="Moq" Version="4.18.2" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Rectangle.Infrastructure\Rectangles.Infrastructure.csproj" />
     <ProjectReference Include="..\Rectangle.Core\Rectangles.Core.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Moq" />
   </ItemGroup>
 </Project>

@@ -9,11 +9,17 @@ namespace Rectangles.Api
 	{
 		public static List<Rectangle> GetRectangleByCoordinates(this IRectangleService rectangleService, int row, int column)
 		{
-			var rectangle = rectangleService.GetRectangles();
+			var board = rectangleService.GetRectangles();
 
-			var filtered = rectangle.Result.Where(x => x.Row == row && x.Column == column).ToList();
+			var filtered = board.Result.FirstOrDefault(x => x.Row == row && x.Column == column);
 
-			return filtered;
+			if (filtered?.Mark > 0)
+			{
+                var rectangle = board.Result.Where(x => x.Mark == filtered.Mark).ToList();
+
+                return rectangle;
+            }
+			return new List<Rectangle>();
 		}
 	}
 }

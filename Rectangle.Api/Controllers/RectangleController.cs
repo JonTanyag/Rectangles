@@ -28,11 +28,11 @@ namespace Rectangles.Api.Controllers
 
         // GET api/values/5
         [HttpGet("{row}/{column}")]
-        public string GetRectangle(int row, int column)
+        public List<Rectangle> GetRectangle(int row, int column)
         {
            var rectangle = _rectangeLservice.GetRectangleByCoordinates(row, column);
 
-            return "value";
+            return rectangle;
         }
 
         // POST api/values

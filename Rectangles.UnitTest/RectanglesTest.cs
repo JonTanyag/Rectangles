@@ -12,71 +12,115 @@ public class RectanglesStest
     {
     }
 
-    [Test]
-    public void CreateNewBoard()
+    [Author("Jon Tanyag")]
+    [TestCase(25,25)]
+    [TestCase(5,5)]
+    [TestCase(10,20)]
+    [TestCase(7,10)]
+    public void WhenCreatingBoard_WithCorrectDimension_ShouldReturn_True(int width, int height)
     {
         // Arrange
-        var _rectangleService = new RectangleService();
+        var jsonService = new JsonService();
+        var _rectangleService = new RectangleService(jsonService);
 
 
         //Act
-        var board = _rectangleService.NewBoard(25, 25);
+        var isCreated = _rectangleService.NewBoard(width, height);
 
 
         // Assert
-        Assert.IsNotNull(board);
+        Assert.IsTrue(isCreated.Result);
     }
 
-    [Test]
-    public void CreateNewBoard_Fail()
+    [Author("Jon Tanyag")]
+    [TestCase(30,30)]
+    [TestCase(2,2)]
+    [TestCase(3,3)]
+    [TestCase(7, 30)]
+    public void WhenCreatingNewBoard_WithWrongDimension_ShouldReturn_False(int width, int height)
     {
         // Arrange
-        var _rectangleService = new RectangleService();
+        var jsonService = new JsonService();
+        var _rectangleService = new RectangleService(jsonService);
 
         //Act
-        var board = _rectangleService.NewBoard(26, 26);
+        var isCreated = _rectangleService.NewBoard(width, height);
 
         // Assert
         Assert.Throws<ArgumentException>(() => { throw new ArgumentException(); });
     }
 
-    [Test]
-    public void ValidateRectangle()
+    [Author("Jon Tanyag")]
+    [TestCase(3,2, 2,2)]
+    [TestCase(2,2, 1,0)]
+    [TestCase(3,2, 2,2)]
+    [TestCase(4,2, 2,2)]
+    public void WhenValidatingRectangle_WithCorrectDimension_ShouldReturn_True(int width, int height, int row, int column)
     {
         // Arrange
-        var _rectangleService = new RectangleService();
+        var jsonService = new JsonService();
+        var _rectangleService = new RectangleService(jsonService);
 
         // Act
-        var isValid = _rectangleService.ValidateRectangle(3, 5, 2,2);
+        var isValid = _rectangleService.ValidateRectangle(width, height, row, column);
+
+
+        // Assert
+        Assert.IsTrue(isValid.Result, "Rectangle within range.");
+    }
+
+    [Author("Jon Tanyag")]
+    [TestCase(3, 2, 2, 2)]
+    [TestCase(2, 2, 1, 0)]
+    [TestCase(3, 2, 2, 2)]
+    [TestCase(4, 2, 2, 2)]
+    public void WhenValidatingRectangle_WithCorrectDimension_ShouldReturn_False(int width, int height, int row, int column)
+    {
+        // Arrange
+        var jsonService = new JsonService();
+        var _rectangleService = new RectangleService(jsonService);
+
+        // Act
+        var isValid = _rectangleService.ValidateRectangle(width, height, row, column);
 
 
         // Assert
         Assert.IsFalse(isValid.Result, "Rectangle out of bounds");
     }
 
-    [Test]
-    public void Test_DeleteRectangleFail()
+    [Author("Jon Tanyag")]
+    [TestCase(2,2)]
+    [TestCase(1,2)]
+    [TestCase(4,4)]
+    [TestCase(24,3)]
+    public void WhenDeletingRectangle_WithIncorrectCoordinates_ShouldReturn_False(int row, int column)
     {
         // Arrange
-        var _rectangleService = new RectangleService();
+        var jsonService = new JsonService();
+        var _rectangleService = new RectangleService(jsonService);
 
 
         // Act
-        var deleted = _rectangleService.DeleteRectangle(2,2);
+        var deleted = _rectangleService.DeleteRectangle(row, column);
 
 
         // Assert
         Assert.IsFalse(deleted.Result, "Rectangle not Found");
     }
 
-    [Test]
-    public void Test_DeleteRectanglePass()
+    [Author("Jon Tanyag")]
+    [TestCase(2, 2)]
+    [TestCase(1, 2)]
+    [TestCase(4, 4)]
+    [TestCase(24, 3)]
+    public void WhenDeletingRectangle_WithIncorrectCoordinates_ShouldReturn_True(int row, int column)
     {
         // Arrange
-        var _rectangleService = new RectangleService();
+        var jsonService = new JsonService();
+        var _rectangleService = new RectangleService(jsonService);
 
         // Act
-        var deleted = _rectangleService.DeleteRectangle(1,0);
+        var deleted = _rectangleService.DeleteRectangle(row, column);
 
 
         // Assert

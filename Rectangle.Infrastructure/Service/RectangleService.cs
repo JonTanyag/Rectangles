@@ -64,26 +64,32 @@ namespace Rectangles.Infrastructure.Service
             return board;
         }
 
-        public async Task<List<Rectangle>> NewBoard(int width, int height)
+        public async Task<bool> NewBoard(int width, int height)
         {
             if (width < 5 || width > 25 || height < 5 || height > 25)
                 throw new ArgumentException("Dimension of rectangle cannot be less than 5 and greater than 25");
 
-            // create new board dimension can be supplied
-            var board = new List<Rectangle>();
-            for (int i = 0; i <= height -1; i++)
+            try
             {
-                for (int j = 0; j <= width-1; j++)
+                // create new board dimension can be supplied
+                var board = new List<Rectangle>();
+                for (int i = 0; i <= height - 1; i++)
                 {
-                    board.Add(new Rectangle { Id = 0, Row = i, Column = j, Mark = 0, isHit = false });
+                    for (int j = 0; j <= width - 1; j++)
+                    {
+                        board.Add(new Rectangle { Id = 0, Row = i, Column = j, Mark = 0, isHit = false });
+                    }
                 }
+                _jsonService.UpdateRectangleFile(board);
+                return true;
             }
-            _jsonService.UpdateRectangleFile(board);
-
-            return board;
+            catch (Exception ex)
+            {
+                return false;
+            }
         }
 
-        public async Task<List<Rectangle>> PlaceRectangle(List<Payload> payload)
+        public async Task<bool> PlaceRectangle(List<Payload> payload)
         {
             // details of rectangle is placed in a list, this can be beneficial
             // for multiple rectangles
@@ -94,45 +100,29 @@ namespace Rectangles.Infrastructure.Service
                 throw new Exception("Rectangles overlap with each other.");
             }
 
-            // get generated board from POST endpoint
-            var board = await _jsonService.GetRectangles();
-            var marker = 0;
-            foreach (var item in payload)
+            try
             {
-                var isOverEdge = await ValidateRectangle(item.Width, item.Height, item.Row, item.Column);
-                if (!isOverEdge)
-                    throw new Exception("Invalid Rectangle. Dimension is out of bounds to the board's dimension.");
-
-                // marker will be the key to find individual rectangles
-                marker++;
-
-
-                var endRow = item.Row + item.Height - 1;
-                var endCol = item.Column + item.Width - 1;
-
-                // second loop can determine if 2nd rectangle will overlap with the 2st one
-                foreach (var squareToHit in board)
+                // get generated board from POST endpoint
+                var board = await _jsonService.GetRectangles();
+                var marker = 0;
+                foreach (var item in payload)
                 {
-                    // mark suppied row and colum via coordinates e.g (2,2)
-                    if (squareToHit.Row == item.Row && squareToHit.Column == item.Column)
-                    {
-                        if (squareToHit.isHit)
-                        {
-                            throw new Exception("Current rectangle in process will overlap with previous rectangle.");
-                        }
-                        squareToHit.Mark = marker;
-                        squareToHit.isHit = true;
-                    }
+                    var isOverEdge = await ValidateRectangle(item.Width, item.Height, item.Row, item.Column);
+                    if (!isOverEdge)
+                        throw new Exception("Invalid Rectangle. Dimension is out of bounds to the board's dimension.");
 
-                    else
-                    {
-                        // if current row and column is greater than endRow and endColumn
-                        // break the loop; considered as out of bounds
-                        if (squareToHit.Row > endRow && squareToHit.Column > endCol)
-                            break;
+                    // marker will be the key to find individual rectangles
+                    marker++;
 
-                        // process column in supplied coordinate in initial row
-                        if (squareToHit.Row == item.Row && (squareToHit.Column > item.Column && squareToHit.Column <= endCol))
+
+                    var endRow = item.Row + item.Height - 1;
+                    var endCol = item.Column + item.Width - 1;
+
+                    // second loop can determine if 2nd rectangle will overlap with the 2st one
+                    foreach (var squareToHit in board)
+                    {
+                        // mark suppied row and colum via coordinates e.g (2,2)
+                        if (squareToHit.Row == item.Row && squareToHit.Column == item.Column)
                         {
                             if (squareToHit.isHit)
                             {
@@ -141,11 +131,16 @@ namespace Rectangles.Infrastructure.Service
                             squareToHit.Mark = marker;
                             squareToHit.isHit = true;
                         }
-                        // process next row
-                        // nested if includes ">" sign to exclude initial coordinates that was already processed
-                        // in line 105-106
-                        else if (squareToHit.Row > item.Row)
-                            if ((squareToHit.Row > item.Row && squareToHit.Row <= endRow) && (squareToHit.Column >= item.Column && squareToHit.Column <= endCol))
+
+                        else
+                        {
+                            // if current row and column is greater than endRow and endColumn
+                            // break the loop; considered as out of bounds
+                            if (squareToHit.Row > endRow && squareToHit.Column > endCol)
+                                break;
+
+                            // process column in supplied coordinate in initial row
+                            if (squareToHit.Row == item.Row && (squareToHit.Column > item.Column && squareToHit.Column <= endCol))
                             {
                                 if (squareToHit.isHit)
                                 {
@@ -154,14 +149,31 @@ namespace Rectangles.Infrastructure.Service
                                 squareToHit.Mark = marker;
                                 squareToHit.isHit = true;
                             }
+                            // process next row
+                            // nested if includes ">" sign to exclude initial coordinates that was already processed
+                            // in line 105-106
+                            else if (squareToHit.Row > item.Row)
+                                if ((squareToHit.Row > item.Row && squareToHit.Row <= endRow) && (squareToHit.Column >= item.Column && squareToHit.Column <= endCol))
+                                {
+                                    if (squareToHit.isHit)
+                                    {
+                                        throw new Exception("Current rectangle in process will overlap with previous rectangle.");
+                                    }
+                                    squareToHit.Mark = marker;
+                                    squareToHit.isHit = true;
+                                }
+                        }
                     }
+
+                    // save update board to json file.
+                    _jsonService.UpdateRectangleFile(board);
                 }
-
-                // save update board to json file.
-                _jsonService.UpdateRectangleFile(board);
+                return true;
             }
-
-            return board;
+            catch (Exception ex)
+            {
+                return false;
+            }
         }
 
         private async Task<bool> CheckOverlap(List<Payload> payload)

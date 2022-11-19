@@ -37,19 +37,19 @@ namespace Rectangles.Api.Controllers
 
         // POST api/values
         [HttpPost]
-        public async Task<List<Rectangle>> Post(int width, int height, [FromBody]string value)
+        public async Task<bool> Post(int width, int height, [FromBody]string value)
         {
-            var board = await _rectangeLservice.NewBoard(width, height);
+            var isCreated = await _rectangeLservice.NewBoard(width, height);
 
-            return board;
+            return isCreated;
         }
 
         // PUT api/values/5
         [HttpPut()]
-        public async Task<List<Rectangle>> Put(int? id, [FromBody]List<Payload> payload)
+        public async Task<bool> Put(int? id, [FromBody]List<Payload> payload)
         {
-            var res = await _rectangeLservice.PlaceRectangle(payload);
-            return res;
+            var isUpdated = await _rectangeLservice.PlaceRectangle(payload);
+            return isUpdated;
         }
 
         // DELETE api/values/5

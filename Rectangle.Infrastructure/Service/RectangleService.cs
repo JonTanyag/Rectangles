@@ -118,7 +118,7 @@ namespace Rectangles.Infrastructure.Service
                     var endRow = item.Row + item.Height - 1;
                     var endCol = item.Column + item.Width - 1;
 
-                    // second loop can determine if 2nd rectangle will overlap with the 2st one
+                    // second loop can determine if 2nd rectangle will overlap with the 1st one
                     foreach (var squareToHit in board)
                     {
                         // mark suppied row and colum via coordinates e.g (2,2)
@@ -184,6 +184,7 @@ namespace Rectangles.Infrastructure.Service
             // Example: (2,2) & (3,0)
 
             // can determine if one of supplied rectangles overlaps with an existing rectangle in the board
+            // scenario first call on PUT endpoint only has 1 rectangle supplied
             var board = await _jsonService.GetRectangles();
             foreach (var item in payload)
             {
@@ -201,7 +202,6 @@ namespace Rectangles.Infrastructure.Service
                     var overlap = board.Any(x => x.Column == item.Column && x.Row == item.Row && x.isHit);
                     if (overlap)
                         return true;
-                        //throw new Exception("Rectangle overlaps with existing rectangle.");
 
                 }
             }
